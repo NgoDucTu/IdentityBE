@@ -38,8 +38,8 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    public List<User> getListUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getListUsers() {
+        return userMapper.toListUserRespone(userRepository.findAll());
     }
 
     public UserResponse getUser(String userId) {
