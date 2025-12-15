@@ -3,6 +3,9 @@ server:
   servlet:
     context-path: /api
 
+jwt:
+  signerKey: "8cff180c14276fc7ec436c786c2ea0f029c6796b5bc50bbb29f63cb2a10549eb"
+
 spring:
   application:
     name: identity.service
@@ -16,3 +19,4 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
