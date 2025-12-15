@@ -3,18 +3,22 @@ package com.tund.identity.service.controller;
 import com.tund.identity.service.dto.request.ApiResponse;
 import com.tund.identity.service.dto.request.UserCreateRequest;
 import com.tund.identity.service.dto.request.UserUpdateRequest;
+import com.tund.identity.service.dto.response.UserResponse;
 import com.tund.identity.service.entity.User;
 import com.tund.identity.service.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequestMapping("/users")
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
-    @Autowired
     private UserService userService;
 
     @PostMapping("/create")
@@ -30,13 +34,13 @@ public class UserController {
     }
 
     @GetMapping("/get/{userId}")
-    User getUser(@PathVariable("userId") String userId) {
+    UserResponse getUser(@PathVariable("userId") String userId) {
         return userService.getUser(userId);
     }
 
     @PutMapping("/update/{userId}")
-    User updateUser(@PathVariable("userId") String userId,@RequestBody UserUpdateRequest request) {
-        return userService.updateUser(userId,request);
+    UserResponse updateUser(@PathVariable("userId") String userId, @RequestBody UserUpdateRequest request) {
+        return userService.updateUser(userId, request);
     }
 
     @DeleteMapping("/delete/{userId}")

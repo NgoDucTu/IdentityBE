@@ -1,6 +1,5 @@
-package com.tund.identity.service.dto.request;
+package com.tund.identity.service.dto.response;
 
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,9 +10,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateRequest {
-
-    @Size(min = 8, message = "INVALID_PASSWORD")
+public class UserResponse {
+    private String id;
+    private String userName;
     private String password;
     private String displayName;
     private LocalDate birthDay;
