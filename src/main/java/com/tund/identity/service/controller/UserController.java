@@ -1,9 +1,11 @@
 package com.tund.identity.service.controller;
 
+import com.tund.identity.service.dto.request.ApiResponse;
 import com.tund.identity.service.dto.request.UserCreateRequest;
 import com.tund.identity.service.dto.request.UserUpdateRequest;
 import com.tund.identity.service.entity.User;
 import com.tund.identity.service.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +18,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    User createUser(@RequestBody UserCreateRequest request) {
-        return userService.createUser(request);
+    ApiResponse<User> createUser(@RequestBody @Valid UserCreateRequest request) {
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.createUser(request));
+        return apiResponse;
     }
 
     @GetMapping("/get")
