@@ -5,6 +5,7 @@ import com.tund.identity.service.dto.request.UserUpdateRequest;
 import com.tund.identity.service.dto.response.UserResponse;
 import com.tund.identity.service.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 public interface UserMapper {
     User toUser(UserCreateRequest request);
 
+    @Mapping(target = "password", ignore = true)
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
 
     UserResponse toUserResponse(User user);

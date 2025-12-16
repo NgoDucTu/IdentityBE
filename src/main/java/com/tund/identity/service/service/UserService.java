@@ -38,7 +38,13 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         ;
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
         userMapper.updateUser(user, request);
+
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
