@@ -10,10 +10,13 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RequestMapping("/users")
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +33,12 @@ public class UserController {
 
     @GetMapping("/get")
     List<UserResponse> getListUsers() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        log.info("User name: {}", authentication.getName());
+        authentication.getAuthorities()
+                .forEach(grantedAuthority -> log.info("role: {}", grantedAuthority.getAuthority()));
+
         return userService.getListUsers();
     }
 
