@@ -1,6 +1,6 @@
 package com.tund.identity.service.configuration;
 
-import com.tund.identity.service.dto.request.ApiResponse;
+import com.tund.identity.service.dto.response.ApiResponse;
 import com.tund.identity.service.exception.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

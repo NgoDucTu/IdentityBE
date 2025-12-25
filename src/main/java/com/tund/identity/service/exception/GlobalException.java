@@ -1,6 +1,6 @@
 package com.tund.identity.service.exception;
 
-import com.tund.identity.service.dto.request.ApiResponse;
+import com.tund.identity.service.dto.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

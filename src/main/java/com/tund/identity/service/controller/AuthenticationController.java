@@ -1,9 +1,9 @@
 package com.tund.identity.service.controller;
 
 import com.nimbusds.jose.JOSEException;
-import com.tund.identity.service.dto.request.ApiResponse;
 import com.tund.identity.service.dto.request.AuthenticationRequest;
 import com.tund.identity.service.dto.request.IntrospectRequest;
+import com.tund.identity.service.dto.response.ApiResponse;
 import com.tund.identity.service.dto.response.AuthenticationResponse;
 import com.tund.identity.service.dto.response.IntrospectResponse;
 import com.tund.identity.service.service.AuthenticationService;

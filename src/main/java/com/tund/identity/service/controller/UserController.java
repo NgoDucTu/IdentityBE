@@ -1,8 +1,8 @@
 package com.tund.identity.service.controller;
 
-import com.tund.identity.service.dto.request.ApiResponse;
 import com.tund.identity.service.dto.request.UserCreateRequest;
 import com.tund.identity.service.dto.request.UserUpdateRequest;
+import com.tund.identity.service.dto.response.ApiResponse;
 import com.tund.identity.service.dto.response.UserResponse;
 import com.tund.identity.service.entity.User;
 import com.tund.identity.service.service.UserService;

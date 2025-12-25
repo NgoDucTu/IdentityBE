@@ -1,9 +1,6 @@
 package com.tund.identity.service.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -25,5 +22,6 @@ public class User {
     private String password;
     private String displayName;
     private LocalDate birthDay;
-    Set<String> roles;
+    @ManyToMany
+    Set<Role> roles;
 }

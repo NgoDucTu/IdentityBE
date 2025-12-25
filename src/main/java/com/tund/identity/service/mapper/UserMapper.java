@@ -20,4 +20,6 @@ public interface UserMapper {
     UserResponse toUserResponse(User user);
 
     List<UserResponse> toListUserRespone(List<User> users);
+
+    
 }
