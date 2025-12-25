@@ -8,6 +8,7 @@ import com.tund.identity.service.enums.Role;
 import com.tund.identity.service.exception.AppException;
 import com.tund.identity.service.exception.ErrorCode;
 import com.tund.identity.service.mapper.UserMapper;
+import com.tund.identity.service.repository.RoleRepository;
 import com.tund.identity.service.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ import java.util.List;
 public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
+    RoleRepository roleRepository;
     PasswordEncoder passwordEncoder;
 
     public User createUser(UserCreateRequest request) {
@@ -53,12 +55,17 @@ public class UserService {
         if (request.getPassword() != null && !request.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
         userMapper.updateUser(user, request);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ADMIN')") // check ROLE_ + role
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")  // check ROLE_ADMIN
+    @PreAuthorize("hasAuthority('READ_DATA')")
     public List<UserResponse> getListUsers() {
         log.info("Admin get all user");
         return userMapper.toListUserRespone(userRepository.findAll());

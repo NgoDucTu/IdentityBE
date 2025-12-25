@@ -37,7 +37,7 @@ public class UserController {
 
         log.info("User name: {}", authentication.getName());
         authentication.getAuthorities()
-                .forEach(grantedAuthority -> log.info("role: {}", grantedAuthority.getAuthority()));
+                .forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
         return userService.getListUsers();
     }

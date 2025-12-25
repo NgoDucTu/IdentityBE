@@ -15,11 +15,12 @@ public interface UserMapper {
     User toUser(UserCreateRequest request);
 
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
 
     UserResponse toUserResponse(User user);
 
     List<UserResponse> toListUserRespone(List<User> users);
 
-    
+
 }
