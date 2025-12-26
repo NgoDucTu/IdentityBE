@@ -1,7 +1,11 @@
 package com.tund.identity.service.dto.request;
 
+import com.tund.identity.service.validator.BirthDayAnnotation;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
@@ -17,5 +21,6 @@ public class UserCreateRequest {
     @Size(min = 8, message = "INVALID_PASSWORD")
     private String password;
     private String displayName;
+    @BirthDayAnnotation(min = 18, message = "INVALID_DOB")
     private LocalDate birthDay;
 }

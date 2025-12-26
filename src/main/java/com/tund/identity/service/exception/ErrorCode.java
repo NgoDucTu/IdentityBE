@@ -13,7 +13,8 @@ public enum ErrorCode {
     INVALID_PASSWORD(103, "Password must be at least 8 charactors", HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(104, "User not found", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(105, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    ACCESS_DENY(106, "Access deny", HttpStatus.FORBIDDEN);
+    ACCESS_DENY(106, "Access deny", HttpStatus.FORBIDDEN),
+    INVALID_DOB(107, "Invalid birth day", HttpStatus.BAD_REQUEST);
 
     private int code;
     private String message;
