@@ -3,6 +3,7 @@ package com.tund.identity.service.controller;
 import com.nimbusds.jose.JOSEException;
 import com.tund.identity.service.dto.request.AuthenticationRequest;
 import com.tund.identity.service.dto.request.IntrospectRequest;
+import com.tund.identity.service.dto.request.LogoutRequest;
 import com.tund.identity.service.dto.response.ApiResponse;
 import com.tund.identity.service.dto.response.AuthenticationResponse;
 import com.tund.identity.service.dto.response.IntrospectResponse;
@@ -38,6 +39,14 @@ public class AuthenticationController {
         var result = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 }
