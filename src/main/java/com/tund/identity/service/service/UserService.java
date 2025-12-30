@@ -33,7 +33,9 @@ public class UserService {
     RoleRepository roleRepository;
     PasswordEncoder passwordEncoder;
 
-    public User createUser(UserCreateRequest request) {
+    public UserResponse createUser(UserCreateRequest request) {
+
+        log.info("Service: create user");
         if (userRepository.existsByUserName(request.getUserName())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
@@ -44,7 +46,7 @@ public class UserService {
         roles.add(Role.USER.name());
 //        user.setRoles(roles);
 
-        return userRepository.save(user);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     public UserResponse updateUser(String userId, UserUpdateRequest request) {

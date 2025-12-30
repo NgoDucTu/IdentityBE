@@ -4,7 +4,6 @@ import com.tund.identity.service.dto.request.UserCreateRequest;
 import com.tund.identity.service.dto.request.UserUpdateRequest;
 import com.tund.identity.service.dto.response.ApiResponse;
 import com.tund.identity.service.dto.response.UserResponse;
-import com.tund.identity.service.entity.User;
 import com.tund.identity.service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -25,10 +24,11 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    ApiResponse<User> createUser(@RequestBody @Valid UserCreateRequest request) {
-        ApiResponse<User> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.createUser(request));
-        return apiResponse;
+    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreateRequest request) {
+        log.info("Controller: create user");
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.createUser(request))
+                .build();
     }
 
     @GetMapping("/get")
