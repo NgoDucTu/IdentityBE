@@ -14,6 +14,7 @@ spring:
 
   datasource:
     url: "jdbc:mysql://localhost:3306/identity"
+    driverClassName: "com.mysql.cj.jbdc.Driver"
     username: root
     password: 123456
 
