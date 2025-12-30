@@ -10,10 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -86,5 +88,31 @@ public class UserServiceTest {
         var exception = assertThrows(AppException.class, () -> userService.createUser(request));
 
         assertThat(exception.getErrorCode().getCode()).isEqualTo(101);
+    }
+
+    @Test
+    @WithMockUser(username = "NameTest")
+    void getMeValid() {
+        //GIVEN
+        BDDMockito.given(userRepository.findByUserName(anyString())).willReturn(Optional.of(user));
+
+        //WHEN
+        var res = userService.getMyInfo();
+        assertThat(res)
+                .isNotNull()
+                .extracting("id","userName", "displayName", "birthDay")
+                .containsExactly("1232423dfgsga","NameTest", "Test Create", dob);
+
+    }
+
+    @Test
+    @WithMockUser(username = "NameTest")
+    void getMeUserNotFound() {
+        //GIVEN
+        BDDMockito.given(userRepository.findByUserName(anyString())).willReturn(Optional.ofNullable(null));
+
+        //WHEN
+        var exception = assertThrows(AppException.class, () -> userService.getMyInfo());
+        assertThat(exception.getErrorCode().getCode()).isEqualTo(104);
     }
 }
