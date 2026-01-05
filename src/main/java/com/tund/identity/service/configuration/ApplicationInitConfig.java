@@ -25,7 +25,7 @@ public class ApplicationInitConfig {
     @Bean
     @ConditionalOnProperty(prefix = "spring",
             value = "datasource.driverClassName",
-            havingValue = "com.mysql.cj.jbdc.Driver"
+            havingValue = "com.mysql.cj.jdbc.Driver"
     )
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
