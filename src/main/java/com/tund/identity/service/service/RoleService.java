@@ -1,18 +1,20 @@
 package com.tund.identity.service.service;
 
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.tund.identity.service.dto.request.RoleRequest;
 import com.tund.identity.service.dto.response.RoleResponse;
 import com.tund.identity.service.mapper.RoleMapper;
 import com.tund.identity.service.repository.PermissionRepository;
 import com.tund.identity.service.repository.RoleRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

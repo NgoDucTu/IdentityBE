@@ -1,10 +1,11 @@
 package com.tund.identity.service.repository;
 
-import com.tund.identity.service.entity.User;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.tund.identity.service.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {

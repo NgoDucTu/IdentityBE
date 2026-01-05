@@ -1,19 +1,22 @@
 package com.tund.identity.service.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
 import com.tund.identity.service.dto.request.UserCreateRequest;
 import com.tund.identity.service.dto.request.UserUpdateRequest;
 import com.tund.identity.service.dto.response.ApiResponse;
 import com.tund.identity.service.dto.response.UserResponse;
 import com.tund.identity.service.service.UserService;
-import jakarta.validation.Valid;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RequestMapping("/users")
@@ -36,8 +39,7 @@ public class UserController {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
         log.info("User name: {}", authentication.getName());
-        authentication.getAuthorities()
-                .forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
         return userService.getListUsers();
     }
@@ -65,5 +67,4 @@ public class UserController {
         userService.deleteUser(userId);
         return ("Deleted user with Id: " + userId);
     }
-
 }

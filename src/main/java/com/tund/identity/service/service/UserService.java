@@ -1,5 +1,14 @@
 package com.tund.identity.service.service;
 
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.tund.identity.service.dto.request.UserCreateRequest;
 import com.tund.identity.service.dto.request.UserUpdateRequest;
 import com.tund.identity.service.dto.response.UserResponse;
@@ -10,18 +19,11 @@ import com.tund.identity.service.exception.ErrorCode;
 import com.tund.identity.service.mapper.UserMapper;
 import com.tund.identity.service.repository.RoleRepository;
 import com.tund.identity.service.repository.UserRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -44,13 +46,14 @@ public class UserService {
 
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-//        user.setRoles(roles);
+        //        user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
-        User user = userRepository.findById(userId)
+        User user = userRepository
+                .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         ;
 
@@ -66,7 +69,7 @@ public class UserService {
     }
 
     //    @PreAuthorize("hasRole('ADMIN')") // check ROLE_ + role
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")  // check ROLE_ADMIN
+    //    @PreAuthorize("hasAuthority('ROLE_ADMIN')")  // check ROLE_ADMIN
     @PreAuthorize("hasAuthority('READ_DATA')")
     public List<UserResponse> getListUsers() {
         log.info("Admin get all user");
@@ -76,7 +79,8 @@ public class UserService {
     @PostAuthorize("returnObject.userName == authentication.name")
     public UserResponse getUser(String userId) {
         log.info("Get Self by user");
-        return userMapper.toUserResponse(userRepository.findById(userId)
+        return userMapper.toUserResponse(userRepository
+                .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId)));
     }
 

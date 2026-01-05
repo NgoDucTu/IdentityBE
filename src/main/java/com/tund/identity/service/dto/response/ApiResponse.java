@@ -1,6 +1,7 @@
 package com.tund.identity.service.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class ApiResponse<T> {
     @Builder.Default
     private int code = 0;
+
     private String message;
     private T result;
-
 }

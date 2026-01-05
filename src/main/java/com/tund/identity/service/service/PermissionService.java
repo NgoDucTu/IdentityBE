@@ -1,17 +1,19 @@
 package com.tund.identity.service.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.tund.identity.service.dto.request.PermissionRequest;
 import com.tund.identity.service.dto.response.PermissionResponse;
 import com.tund.identity.service.entity.Permission;
 import com.tund.identity.service.mapper.PermissionMapper;
 import com.tund.identity.service.repository.PermissionRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +31,9 @@ public class PermissionService {
     }
 
     public List<PermissionResponse> getList() {
-        return permissionRepository.findAll().stream().map(permissionMapper::toPermissionResponse).toList();
+        return permissionRepository.findAll().stream()
+                .map(permissionMapper::toPermissionResponse)
+                .toList();
     }
 
     public void delete(String permissionName) {

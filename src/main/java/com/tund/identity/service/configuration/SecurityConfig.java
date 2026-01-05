@@ -17,24 +17,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] END_POINT = {"/users/**", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"};
+    private final String[] END_POINT = {"/users/**", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+    };
+
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests((authorize) ->
-                authorize.requestMatchers(HttpMethod.POST, END_POINT).permitAll()
-                        .anyRequest().authenticated());
+        httpSecurity.authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers(HttpMethod.POST, END_POINT)
+                .permitAll()
+                .anyRequest()
+                .authenticated());
 
-        httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
-                        )
-
-                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-
-        );
+        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
+                        .decoder(customJwtDecoder)
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
@@ -51,9 +51,9 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
-//    @Bean
-//    PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder(10);
-//    }
+    //    @Bean
+    //    PasswordEncoder passwordEncoder() {
+    //        return new BCryptPasswordEncoder(10);
+    //    }
 
 }

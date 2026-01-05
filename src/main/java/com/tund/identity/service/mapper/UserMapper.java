@@ -1,14 +1,15 @@
 package com.tund.identity.service.mapper;
 
-import com.tund.identity.service.dto.request.UserCreateRequest;
-import com.tund.identity.service.dto.request.UserUpdateRequest;
-import com.tund.identity.service.dto.response.UserResponse;
-import com.tund.identity.service.entity.User;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import java.util.List;
+import com.tund.identity.service.dto.request.UserCreateRequest;
+import com.tund.identity.service.dto.request.UserUpdateRequest;
+import com.tund.identity.service.dto.response.UserResponse;
+import com.tund.identity.service.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -21,6 +22,4 @@ public interface UserMapper {
     UserResponse toUserResponse(User user);
 
     List<UserResponse> toListUserRespone(List<User> users);
-
-
 }

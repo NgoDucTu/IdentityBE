@@ -1,8 +1,7 @@
 package com.tund.identity.service.controller;
 
-import com.tund.identity.service.dto.request.UserCreateRequest;
-import com.tund.identity.service.dto.response.UserResponse;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import tools.jackson.databind.ObjectMapper;
 
-import java.time.LocalDate;
+import com.tund.identity.service.dto.request.UserCreateRequest;
+import com.tund.identity.service.dto.response.UserResponse;
+
+import lombok.extern.slf4j.Slf4j;
+import tools.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @Slf4j
@@ -41,6 +43,7 @@ public class UserControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
     private UserCreateRequest request;
     private UserResponse userResponse;
     private LocalDate dob;
@@ -60,30 +63,22 @@ public class UserControllerIntegrationTest {
                 .userName("NameTest")
                 .displayName("Test Create")
                 .birthDay(dob)
-
                 .build();
     }
 
     @Test
     void createUserValid() throws Exception {
-        //GIVEN
+        // GIVEN
         ObjectMapper objectMapper = new ObjectMapper();
         String content = objectMapper.writeValueAsString(request);
 
-
-        //WHEN, THEN
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/users/create")
+        // WHEN, THEN
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/create")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("0"))
                 .andExpect(MockMvcResultMatchers.jsonPath("result.userName").value("NameTest"))
-                .andExpect(MockMvcResultMatchers.jsonPath("result.displayName").value("Test Create"))
-           
-        ;
-
+                .andExpect(MockMvcResultMatchers.jsonPath("result.displayName").value("Test Create"));
     }
-
-
 }
