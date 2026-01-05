@@ -1,10 +1,8 @@
 package com.tund.identity.service.configuration;
 
-import java.text.ParseException;
-import java.util.Objects;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nimbusds.jose.JOSEException;
+import com.tund.identity.service.dto.request.IntrospectRequest;
+import com.tund.identity.service.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -13,9 +11,9 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 
-import com.nimbusds.jose.JOSEException;
-import com.tund.identity.service.dto.request.IntrospectRequest;
-import com.tund.identity.service.service.AuthenticationService;
+import javax.crypto.spec.SecretKeySpec;
+import java.text.ParseException;
+import java.util.Objects;
 
 @Component
 public class CustomJwtDecoder implements JwtDecoder {
@@ -23,8 +21,11 @@ public class CustomJwtDecoder implements JwtDecoder {
     @Value("${jwt.signerKey}")
     private String scKey;
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
+
+    public CustomJwtDecoder(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     private NimbusJwtDecoder nimbusJwtDecoder = null;
 

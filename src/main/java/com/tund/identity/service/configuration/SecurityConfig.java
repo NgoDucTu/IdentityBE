@@ -1,6 +1,5 @@
 package com.tund.identity.service.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,16 +16,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] END_POINT = {"/users/**", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+    private final String[] endPoints = {"/users/**", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
     };
 
-    @Autowired
-    private CustomJwtDecoder customJwtDecoder;
+    private final CustomJwtDecoder customJwtDecoder;
+
+    public SecurityConfig(CustomJwtDecoder customJwtDecoder) {
+        this.customJwtDecoder = customJwtDecoder;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers(HttpMethod.POST, END_POINT)
+        httpSecurity.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(HttpMethod.POST, endPoints)
                 .permitAll()
                 .anyRequest()
                 .authenticated());
@@ -50,10 +52,4 @@ public class SecurityConfig {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
     }
-
-    //    @Bean
-    //    PasswordEncoder passwordEncoder() {
-    //        return new BCryptPasswordEncoder(10);
-    //    }
-
 }
