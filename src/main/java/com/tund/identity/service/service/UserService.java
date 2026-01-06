@@ -1,29 +1,29 @@
 package com.tund.identity.service.service;
 
-import java.util.HashSet;
-import java.util.List;
-
+import com.tund.identity.service.constant.PredefinedRole;
+import com.tund.identity.service.dto.request.UserCreateRequest;
+import com.tund.identity.service.dto.request.UserUpdateRequest;
+import com.tund.identity.service.dto.response.UserResponse;
+import com.tund.identity.service.entity.Role;
+import com.tund.identity.service.entity.User;
+import com.tund.identity.service.exception.AppException;
+import com.tund.identity.service.exception.ErrorCode;
+import com.tund.identity.service.mapper.UserMapper;
+import com.tund.identity.service.repository.RoleRepository;
+import com.tund.identity.service.repository.UserRepository;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.tund.identity.service.dto.request.UserCreateRequest;
-import com.tund.identity.service.dto.request.UserUpdateRequest;
-import com.tund.identity.service.dto.response.UserResponse;
-import com.tund.identity.service.entity.User;
-import com.tund.identity.service.enums.Role;
-import com.tund.identity.service.exception.AppException;
-import com.tund.identity.service.exception.ErrorCode;
-import com.tund.identity.service.mapper.UserMapper;
-import com.tund.identity.service.repository.RoleRepository;
-import com.tund.identity.service.repository.UserRepository;
-
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashSet;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -38,17 +38,21 @@ public class UserService {
     public UserResponse createUser(UserCreateRequest request) {
 
         log.info("Service: create user");
-        if (userRepository.existsByUserName(request.getUserName())) {
-            throw new AppException(ErrorCode.USER_EXISTED);
-        }
+
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        //        user.setRoles(roles);
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
 
-        return userMapper.toUserResponse(userRepository.save(user));
+        user.setRoles(roles);
+
+        try {
+            user = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+        return userMapper.toUserResponse(user);
     }
 
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
