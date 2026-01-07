@@ -4,7 +4,7 @@ server:
     context-path: /api
 
 jwt:
-  signerKey: "8cff180c14276fc7ec436c786c2ea0f029c6796b5bc50bbb29f63cb2a10549eb"
+  signerKey: "8cff180c14276f7cec436c786c2ea0f029c679b65bc50bbb29f63cb2a10549eb"
   valid-duration: 3600 # second
   refreshable-duration: 36000
 
@@ -13,7 +13,7 @@ spring:
     name: identity.service
 
   datasource:
-    url: "jdbc:mysql://mysql-identity:3306/identity"
+    url: "jdbc:mysql://localhost:3306/identity"
     driverClassName: "com.mysql.cj.jdbc.Driver"
     username: root
     password: 123456
